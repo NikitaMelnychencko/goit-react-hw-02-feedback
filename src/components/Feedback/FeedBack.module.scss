@@ -1,0 +1,17 @@
+.FeedBackList {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+.Button {
+  padding: 10px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  border: 1px solid #000000;
+
+  &:hover,
+  &:focus {
+    background-color: #00ccff;
+  }
+}
