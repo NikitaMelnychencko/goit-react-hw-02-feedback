@@ -1,6 +1,7 @@
+import PropTypes from 'prop-types';
 import s from './FeedBack.module.scss';
 
-const FeedbackOptions = ({ options, onLeaveFeedback }) => {
+const FeedbackOptions = ({ options }) => {
   return (
     <ul className={s.FeedBackList}>
       <li>
@@ -20,5 +21,15 @@ const FeedbackOptions = ({ options, onLeaveFeedback }) => {
       </li>
     </ul>
   );
+};
+
+Notification.propTypes = {
+  options: PropTypes.objectOf(
+    PropTypes.shape({
+      good: PropTypes.string.isRequired,
+      neutral: PropTypes.string.isRequired,
+      bad: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
 };
 export default FeedbackOptions;
