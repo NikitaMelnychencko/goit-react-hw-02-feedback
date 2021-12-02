@@ -5,44 +5,30 @@ import Statistics from 'components/Statistics/Statistics';
 import Notification from 'components/Notification/Notification';
 class App extends React.Component {
   state = {
-    goodValue: 0,
-    neutralValue: 0,
-    badValue: 0,
-    totalValue: 0,
-    positiveFeedbackValue: 0,
+    good: 0,
+    neutral: 0,
+    bad: 0,
+    total: 0,
+    positiveFeedback: 0,
     blockVision: true,
   };
-  goodIncrement = () => {
+
+  updateIncrement = e => {
     this.setState(prevState => ({
-      goodValue: prevState.goodValue + 1,
-      blockVision: false,
-    }));
-    this.countTotalFeedback();
-  };
-  neutralIncrement = () => {
-    this.setState(prevState => ({
-      neutralValue: prevState.neutralValue + 1,
-      blockVision: false,
-    }));
-    this.countTotalFeedback();
-  };
-  badIncrement = () => {
-    this.setState(prevState => ({
-      badValue: prevState.badValue + 1,
+      [e.target.name]: prevState[e.target.name] + 1,
       blockVision: false,
     }));
     this.countTotalFeedback();
   };
   countTotalFeedback = () => {
     this.setState(prevState => ({
-      totalValue:
-        prevState.goodValue + prevState.neutralValue + prevState.badValue,
+      total: prevState.good + prevState.neutral + prevState.bad,
     }));
     this.countPositiveFeedbackPercentage();
   };
   countPositiveFeedbackPercentage = () => {
     this.setState(prevState => ({
-      positiveFeedbackValue: (prevState.goodValue / prevState.totalValue) * 100,
+      positiveFeedback: (prevState.good / prevState.total) * 100,
     }));
   };
   render() {
@@ -50,11 +36,8 @@ class App extends React.Component {
       <>
         <Section title={'Please leave feedback'}>
           <FeedbackOptions
-            options={{
-              good: this.goodIncrement,
-              neutral: this.neutralIncrement,
-              bad: this.badIncrement,
-            }}
+            options={['good', 'neutral', 'bad']}
+            onLeaveFeedback={this.updateIncrement}
           />
         </Section>
         <Section title={'Statistics'}>
@@ -62,11 +45,11 @@ class App extends React.Component {
             <Notification message="There is no feedback" />
           ) : (
             <Statistics
-              good={this.state.goodValue}
-              neutral={this.state.neutralValue}
-              bad={this.state.badValue}
-              total={this.state.totalValue}
-              positivePercentage={this.state.positiveFeedbackValue}
+              good={this.state.good}
+              neutral={this.state.neutral}
+              bad={this.state.bad}
+              total={this.state.total}
+              positivePercentage={this.state.positiveFeedback}
             />
           )}
         </Section>

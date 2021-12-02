@@ -1,35 +1,24 @@
 import PropTypes from 'prop-types';
+import FeedbackItem from './FeedbackItem';
 import s from './FeedBack.module.scss';
+import { nanoid } from 'nanoid';
 
-const FeedbackOptions = ({ options }) => {
+const FeedbackOptions = ({ options, onLeaveFeedback }) => {
   return (
     <ul className={s.FeedBackList}>
-      <li>
-        <button className={s.Button} onClick={options.good}>
-          Good
-        </button>
-      </li>
-      <li>
-        <button className={s.Button} onClick={options.neutral}>
-          Neutral
-        </button>
-      </li>
-      <li>
-        <button className={s.Button} onClick={options.bad}>
-          Bad
-        </button>
-      </li>
+      {options.map(option => (
+        <FeedbackItem
+          key={nanoid()}
+          option={option}
+          onLeaveFeedback={onLeaveFeedback}
+        />
+      ))}
     </ul>
   );
 };
 
 Notification.propTypes = {
-  options: PropTypes.objectOf(
-    PropTypes.shape({
-      good: PropTypes.string.isRequired,
-      neutral: PropTypes.string.isRequired,
-      bad: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
+  options: PropTypes.array.isRequired,
+  onLeaveFeedback: PropTypes.func.isRequired,
 };
 export default FeedbackOptions;
