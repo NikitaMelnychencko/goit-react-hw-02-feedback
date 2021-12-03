@@ -4,7 +4,7 @@ import s from './FeedBack.module.scss';
 const FeedbackItem = ({ option, onLeaveFeedback }) => {
   return (
     <li>
-      <button className={s.Button} onClick={onLeaveFeedback} name={option}>
+      <button className={s.Button} onClick={() => onLeaveFeedback(option)}>
         {option}
       </button>
     </li>

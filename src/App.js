@@ -8,48 +8,44 @@ class App extends React.Component {
     good: 0,
     neutral: 0,
     bad: 0,
-    total: 0,
-    positiveFeedback: 0,
-    blockVision: true,
   };
-
-  updateIncrement = e => {
+  blockVision = true;
+  updateIncrement = id => {
     this.setState(prevState => ({
-      [e.target.name]: prevState[e.target.name] + 1,
-      blockVision: false,
+      [id]: prevState[id] + 1,
     }));
-    this.countTotalFeedback();
+    this.blockVision = false;
   };
   countTotalFeedback = () => {
-    this.setState(prevState => ({
-      total: prevState.good + prevState.neutral + prevState.bad,
-    }));
-    this.countPositiveFeedbackPercentage();
+    const total = this.state.good + this.state.neutral + this.state.bad;
+    return total;
   };
-  countPositiveFeedbackPercentage = () => {
-    this.setState(prevState => ({
-      positiveFeedback: (prevState.good / prevState.total) * 100,
-    }));
+  countPositiveFeedbackPercentage = total => {
+    const positiveFeedback = (this.state.good / total) * 100;
+    return positiveFeedback;
   };
   render() {
+    const totalValue = this.countTotalFeedback();
+    const positiveFeedbackPercentage =
+      this.countPositiveFeedbackPercentage(totalValue);
     return (
       <>
-        <Section title={'Please leave feedback'}>
+        <Section title="Please leave feedback">
           <FeedbackOptions
             options={['good', 'neutral', 'bad']}
             onLeaveFeedback={this.updateIncrement}
           />
         </Section>
-        <Section title={'Statistics'}>
-          {this.state.blockVision ? (
+        <Section title="Statistics">
+          {this.blockVision ? (
             <Notification message="There is no feedback" />
           ) : (
             <Statistics
               good={this.state.good}
               neutral={this.state.neutral}
               bad={this.state.bad}
-              total={this.state.total}
-              positivePercentage={this.state.positiveFeedback}
+              total={totalValue}
+              positivePercentage={positiveFeedbackPercentage}
             />
           )}
         </Section>
