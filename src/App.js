@@ -9,12 +9,10 @@ class App extends React.Component {
     neutral: 0,
     bad: 0,
   };
-  blockVision = true;
-  updateIncrement = id => {
+  updateIncrement = feedback => {
     this.setState(prevState => ({
-      [id]: prevState[id] + 1,
+      [feedback]: prevState[feedback] + 1,
     }));
-    this.blockVision = false;
   };
   countTotalFeedback = () => {
     const total = this.state.good + this.state.neutral + this.state.bad;
@@ -37,7 +35,7 @@ class App extends React.Component {
           />
         </Section>
         <Section title="Statistics">
-          {this.blockVision ? (
+          {!totalValue ? (
             <Notification message="There is no feedback" />
           ) : (
             <Statistics
